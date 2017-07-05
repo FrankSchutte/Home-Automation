@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/FrankSchutte/home-automation/issues"
   },
-  "homepage": "https://github.com/FrankSchutte/home-automation#readme"
+  "homepage": "https://github.com/FrankSchutte/home-automation#readme",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
 }
