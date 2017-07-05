@@ -1,0 +1,23 @@
+{
+  "name": "home-automation",
+  "version": "0.1.0",
+  "description": "Home project to create a central system, usable with smartphone, to control 433 mhz outlet sockets.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrankSchutte/home-automation.git"
+  },
+  "keywords": [
+    "433mhz",
+    "home-automation"
+  ],
+  "author": "Frank Schutte",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/FrankSchutte/home-automation/issues"
+  },
+  "homepage": "https://github.com/FrankSchutte/home-automation#readme"
+}
