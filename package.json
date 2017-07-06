@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/FrankSchutte/home-automation#readme",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "express": "^4.15.3",
-    "mongodb": "^2.2.29"
+    "mongodb": "^2.2.29",
+    "serialport": "^4.0.7"
   }
 }
