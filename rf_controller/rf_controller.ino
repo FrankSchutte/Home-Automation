@@ -35,8 +35,6 @@ void loop() {
     String type = root["type"];
 
     if (type == "LEARN_NEW_REMOTE") {
-      Serial.println("Push remote to learn code");
-
       // Start receiving rf code
       NewRemoteReceiver::enable();
     } else if (type == "SEND_NEW_REMOTE") {
