@@ -24,43 +24,60 @@ void loop() {
     String message = Serial.readString();
 
     StaticJsonBuffer<200> jsonBuffer;
-    JsonObject &root = jsonBuffer.parseObject(message);
+    JsonObject &req = jsonBuffer.parseObject(message);
+    JsonObject &res = jsonBuffer.createObject();
 
-    if (!root.success()) {
-      Serial.println("Failed to parse Json");
+    if (!req.success()) {
+      res["err"] = "Failed to parse JSON";
+      
+      printJsonObject(res);
       return;
     }
 
-    // If JSON is valid further actions are determined by the type
-    String type = root["type"];
+    // If JSON is valid further actions are determined by the type and protocol
+    String type = req["type"];
+    String protocol = req["protocol"];
 
-    if (type == "LEARN_NEW_REMOTE") {
-      // Start receiving rf code
-      NewRemoteReceiver::enable();
-    } else if (type == "SEND_NEW_REMOTE") {
-      unsigned long transmitterAddress = root["transmitterAddress"];
-      byte unit = root["unit"];
-      bool switchOn = root["switchOn"];
+    if (type.equals("LEARN_CODE")) {
+      if (protocol.equals("NEW_REMOTE")) {
+        // Start receiving rf code
+        NewRemoteReceiver::enable();
+      }
+    } else if (type.equals("SEND_CODE")) {
+      if (protocol.equals("NEW_REMOTE")) {
+        unsigned long transmitterAddress = req["action"]["transmitterAddress"];
+        byte unit = req["action"]["unit"];
+        bool switchOn = req["action"]["switchOn"];
 
-      // Send rf code
-      NewRemoteTransmitter transmitter(transmitterAddress, TRANSMITTER_PIN);
-      transmitter.sendUnit(unit, switchOn);
+        // Send rf code
+        NewRemoteTransmitter transmitter(transmitterAddress, TRANSMITTER_PIN);
+        transmitter.sendUnit(unit, switchOn);
+        
+        res["success"] = "Device has been toggled";
+        
+        printJsonObject(res);
+      }
     }
   }
 }
 
 void learnCode(NewRemoteCode receivedCode) {
-  StaticJsonBuffer<200> jsonBuffer;
-  JsonObject &root = jsonBuffer.createObject();
-
-  root["address"] = receivedCode.address;
-  root["unit"] = receivedCode.unit;
-
-  char buffer[256];
-  root.printTo(buffer, sizeof(buffer));
-  
-  Serial.println(buffer);
-
+  // Stop receiving rf signals
   NewRemoteReceiver::disable();
+
+  StaticJsonBuffer<200> jsonBuffer;
+  JsonObject &res = jsonBuffer.createObject();
+
+  res["address"] = receivedCode.address;
+  res["unit"] = receivedCode.unit;
+
+  printJsonObject(res);
+}
+
+void printJsonObject(JsonObject &jsonObject) {
+  char buffer[256];
+
+  jsonObject.printTo(buffer, sizeof(buffer));
+  Serial.println(buffer);
 }
 
