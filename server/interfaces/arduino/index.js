@@ -56,7 +56,7 @@ const Arduino = {
 };
 
 const initializePort = function (comName, callback) {
-    port = new SerialPort('COM3', {
+    port = new SerialPort(comName, {
         parser: SerialPort.parsers.readline('\n')
     }, function (err) {
         if (err) {
