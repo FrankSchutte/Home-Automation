@@ -154,7 +154,8 @@ sudo service sshd restart
 ```
 [Setup node & npm](http://thisdavej.com/beginners-guide-to-installing-node-js-on-a-raspberry-pi/#install-node)
 
-[Setup MongoDB with remote host](http://aeonmedia.eu/2011/04/mongodb-setup-config-to-connect-by-remote-hosts-debian/)
+[Setup MongoDB](http://yannickloriot.com/2016/04/install-mongodb-and-node-js-on-a-raspberry-pi/) and 
+[with remote host](http://aeonmedia.eu/2011/04/mongodb-setup-config-to-connect-by-remote-hosts-debian/)
 ```
 sudo nano /etc/mongodb.conf
 
