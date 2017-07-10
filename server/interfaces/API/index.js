@@ -41,6 +41,32 @@ api.post('/v1/code', function (req, res) {
     });
 });
 
+// Get a list of all available comports
+api.get('/v1/comports', function (req, res) {
+    arduino.getComports(function (err, comports) {
+        const message = {
+            err: err,
+            comports: comports
+        };
+
+        res.json(message);
+    });
+});
+
+// Set a comport that should be used
+api.post('/v1/comports', function (req, res) {
+    const comName = req.body.comName;
+
+    arduino.setComport(comName, function (err, success) {
+        const message = {
+            err: err,
+            success: success
+        };
+
+        res.json(message);
+    });
+});
+
 // Get a list of all devices
 api.get('/v1/devices', function (req, res) {
     db.getDevices(function (err, devices) {
