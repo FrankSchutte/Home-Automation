@@ -1,5 +1,5 @@
 # Software guidebook home-automation
-Home project to create a central system, usable with smartphone, to control 433 mhz outlet sockets.
+Project to create a central system, usable with smartphone, to control 433 mhz outlet sockets.
 ## Installation
 ```
 git clone https://github.com/FrankSchutte/home-automation.git
@@ -10,14 +10,94 @@ Then open [http://localhost:3000](http://localhost:3000) to see the website.
 ### /
 Index page displaying Hello World!
 ## Database
+### Mongodb
 ## Interfaces
 ### API
+#### Toggle a device
+POST /api/v1/code
+```
+Request body:
+{
+    protocol: String [ NEW_REMOTE ],
+    action: {
+        ...
+    }
+}
+Response body:
+{
+    err: undefined || String,
+    success: undefined || String
+}
+```
+#### Learn a new code
+GET /api/v1/code/learn
+```
+Request body:
+{
+    protocol: String [ NEW_REMOTE ]
+}
+Response body:
+{
+    err: undefined || String,
+    code: {
+        transmitterAddress: Number,
+        unit: Number
+    }
+}
+```
+#### Get a list of devices
+GET /api/v1/devices
+```
+Response body:
+{
+    err: undefined || String,
+    devices: [{
+        _id: String,
+        label: String,
+        actions: {
+            ...
+        }
+    }, {
+        ...
+    }]
+}
+```
+### Arduino
+#### Learn code
+```
+Send to serial port:
+{
+    type: 'LEARN_CODE',
+    protocol: 'NEW_REMOTE'
+}
+Received from serial port: 
+err: String
+code: {
+        address: Number,
+        unit: Number
+    }
+```
+#### Toggle devices
+```
+Send to serial port:
+{
+    type: 'SEND_CODE',
+    protocol: 'NEW_REMOTE',
+    action: {
+        transmitterAddress: Number,
+        unit: Number,
+        switchOn: Boolean
+    }
+}
+Received from serial port:
+err: String
+success: undefined || String
+```
 ### Web socket
 ## Raspberry Pi Configuration
 To setup the raspberry pi use the following commands:
 [Connect to WiFi](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
 ```
-// Open WiFi config file:
 sudo nano /etc/wpa_supplicant/wpa_supplicant.conf  
 
 // Add the network, example:
@@ -27,21 +107,18 @@ network={
     id_str="home"
 }
 
-// Reconfigure
 sudo wpa_cli reconfigure
 ```
 [Setup ssh](https://www.raspberrypi.org/documentation/remote-access/ssh/)
 ```
-// Open raspi config dialog
 sudo raspi-config
 
-// To prevent ssh freezes add to files:
-    /etc/ssh/ssh_config
-    /etc/ssh/sshd_config 
+// Add to files:
+//  /etc/ssh/ssh_config
+//  /etc/ssh/sshd_config
 // the line:
 IPQoS 0x00
 
-// Then run command
 sudo service sshd restart
 ```
 [Setup node & npm](http://yannickloriot.com/2016/04/install-mongodb-and-node-js-on-a-raspberry-pi/)
