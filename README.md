@@ -26,16 +26,14 @@ Request body:
 Response body:
 {
     err: undefined || String,
-    success: undefined || String
+    success: String
 }
 ```
 #### Learn a new code
 GET /api/v1/code/learn
 ```
-Request body:
-{
+Query params:
     protocol: String [ NEW_REMOTE ]
-}
 Response body:
 {
     err: undefined || String,
@@ -43,6 +41,38 @@ Response body:
         transmitterAddress: Number,
         unit: Number
     }
+}
+```
+#### Get a list of comports
+GET /api/v1/comports
+```
+Response body:
+{
+    err: undefined || String,
+    comports: 
+    [{
+        comName: String,
+        manufacturer: String,
+        pnpId: String,
+        locationId: String,
+        vendorId: String
+        productId: String
+    }, {
+        ...
+    }]
+}
+```
+#### Set a comport
+POST /api/v1/comports
+```
+Request body:
+{
+    comName: String
+}
+Response body:
+{
+    err: undefined || String,
+    success: String
 }
 ```
 #### Get a list of devices
@@ -71,8 +101,9 @@ Send to serial port:
     protocol: 'NEW_REMOTE'
 }
 Received from serial port: 
-err: String
-code: {
+    err: undefined || String
+    code:
+    {
         address: Number,
         unit: Number
     }
@@ -90,8 +121,8 @@ Send to serial port:
     }
 }
 Received from serial port:
-err: String
-success: undefined || String
+    err: undefined || String
+    success: String
 ```
 ### Web socket
 ## Raspberry Pi Configuration
