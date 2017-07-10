@@ -36,6 +36,10 @@ const Arduino = {
         initializePort(comName, callback);
     },
     toggleDevice: function (command, callback) {
+        if (port === undefined || !port.isOpen()) {
+            return callback('Make sure to set the comport');
+        }
+
         command.type = 'SEND_CODE';
 
         port.write(JSON.stringify(command), function (err) {
@@ -52,6 +56,7 @@ const Arduino = {
                 callback(err, success);
             });
         });
+
     }
 };
 
