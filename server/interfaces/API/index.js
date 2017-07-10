@@ -79,4 +79,18 @@ api.get('/v1/devices', function (req, res) {
     });
 });
 
+// Add a device
+api.post('/v1/devices', function (req, res) {
+    const device = req.body.device;
+
+    db.addDevice(device, function (err, success) {
+        const message = {
+            err: err,
+            success: success
+        };
+
+        res.json(message);
+    });
+});
+
 module.exports = api;

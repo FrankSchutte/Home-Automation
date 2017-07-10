@@ -41,7 +41,6 @@ const Arduino = {
         }
 
         command.type = 'SEND_CODE';
-
         port.write(JSON.stringify(command), function (err) {
             if (err) {
                 console.error(err);
