@@ -9,6 +9,20 @@ const api = express.Router();
 api.use(bodyparser.json());
 api.use(bodyparser.urlencoded({extended: true}));
 
+// Toggle a device with a given action
+api.post('/v1/code', function (req, res) {
+    const command = req.body;
+
+    arduino.toggleDevice(command, function (err, success) {
+        const message = {
+            err: err,
+            success: success
+        };
+
+        res.json(message);
+    });
+});
+
 // Learn a new code
 api.get('/v1/code/learn', function (req, res) {
     const protocol = req.query.protocol;
@@ -21,20 +35,6 @@ api.get('/v1/code/learn', function (req, res) {
         const message = {
             err: err,
             code: code
-        };
-
-        res.json(message);
-    });
-});
-
-// Toggle a device with a given action
-api.post('/v1/code', function (req, res) {
-    const command = req.body;
-
-    arduino.toggleDevice(command, function (err, success) {
-        const message = {
-            err: err,
-            success: success
         };
 
         res.json(message);
