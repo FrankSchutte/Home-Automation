@@ -3,6 +3,15 @@ import superagent from 'superagent';
 const url = 'http://192.168.0.51:3000';
 
 const request = {
+    fetchDevice: (id, callback) => {
+        superagent
+            .get(url + '/api/v1/devices/' + id)
+            .end((err, res) => {
+                const device = JSON.parse(res.text).device;
+
+                callback(err, device);
+            });
+    },
     fetchDevices: (callback) => {
         superagent
             .get(url + '/api/v1/devices')

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import Device from './Device';
@@ -7,7 +8,7 @@ import './style.css';
 
 class Devices extends Component {
 
-    componentDidMount = () => {
+    componentDidMount() {
         this.props.fetchDevices();
     };
 
@@ -20,20 +21,21 @@ class Devices extends Component {
         this.props.toggleDevice(command);
     };
 
-    render = () => {
+    render() {
         const devices = this.props.devices.map((device) => (
-            <Device key={device._id}
-                    _id={device._id}
-                    label={device.label}
-                    turnDeviceOn={this.toggleDevice.bind(this, device.protocol, device.actions.turnDeviceOn)}
-                    turnDeviceOff={this.toggleDevice.bind(this, device.protocol, device.actions.turnDeviceOff)}
-            />
+                <Device key={device._id}
+                        _id={device._id}
+                        label={device.label}
+                        turnDeviceOn={this.toggleDevice.bind(this, device.protocol, device.actions.turnDeviceOn)}
+                        turnDeviceOff={this.toggleDevice.bind(this, device.protocol, device.actions.turnDeviceOff)}
+                />
         ));
 
         return (
             <section>
                 <h1>My devices</h1>
                 {devices}
+                <NavLink to="/devices/add">Add device</NavLink>
             </section>
         );
     };
