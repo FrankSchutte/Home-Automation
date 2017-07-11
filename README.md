@@ -84,12 +84,52 @@ Response body:
     devices: [{
         _id: String,
         label: String,
+        location: String,
+        protocol: String,
         actions: {
             ...
         }
     }, {
         ...
     }]
+}
+```
+#### Get a device based on id
+GET /api/v1/devices/:id
+```
+Query params:
+    id: String
+Response body:
+{
+    err: undefined || String,
+    device: {
+        _id: String,
+        label: String,
+        location: String,
+        protocol: String,
+        actions: {
+            ...
+        }
+    }
+}
+```
+#### Add a device
+POST /api/v1/devices
+```
+Request body:
+{
+    label: String,
+    location: String,
+    protocol: String,
+    actions: {
+        ...
+    }
+}
+Response body:
+{
+    err: undefined || String,
+    success: String,
+    id: String
 }
 ```
 ### Arduino
