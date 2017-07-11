@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 const api = require('./interfaces/API/index');
 
@@ -19,12 +20,10 @@ app.use(function (req, res, next) {
 
 app.use('/api', api);
 
-app.get('/*', function (req, res) {
-    const response = {
-        success: 'Hello World!'
-    };
+app.use('/static', express.static(path.join(__dirname, '..', 'client', 'build', 'static')));
 
-    res.json(response);
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
 });
 
 app.listen(port, function () {
