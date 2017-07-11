@@ -23,6 +23,7 @@ class Devices extends Component {
     render = () => {
         const devices = this.props.devices.map((device) => (
             <Device key={device._id}
+                    _id={device._id}
                     label={device.label}
                     turnDeviceOn={this.toggleDevice.bind(this, device.protocol, device.actions.turnDeviceOn)}
                     turnDeviceOff={this.toggleDevice.bind(this, device.protocol, device.actions.turnDeviceOff)}
@@ -30,10 +31,10 @@ class Devices extends Component {
         ));
 
         return (
-            <div>
+            <section>
                 <h1>My devices</h1>
                 {devices}
-            </div>
+            </section>
         );
     };
 }

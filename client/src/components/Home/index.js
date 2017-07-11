@@ -4,9 +4,9 @@ import './style.css';
 
 const Home = () => {
     return (
-        <div>
+        <section>
             <h1>My home</h1>
-        </div>
+        </section>
     );
 };
 
