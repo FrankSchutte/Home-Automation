@@ -49,8 +49,8 @@ class Edit extends Component {
     };
 
     render() {
-        const device = this.props.devices[0];
-
+        const device = this.props.device;
+        
         return (
             <section>
                 <h1>Add device</h1>
@@ -95,7 +95,7 @@ class Edit extends Component {
                                value={(device) ? JSON.stringify(device.actions.turnDeviceOff) : ''}
                         />
                     </label>
-                    <input type="submit" value="Add"/>
+                    <input type="submit" value="Edit"/>
                 </form>
             </section>
         );
@@ -103,13 +103,13 @@ class Edit extends Component {
 }
 
 Edit.propTypes = {
-    devices: PropTypes.array.isRequired,
+    device: PropTypes.any,
     fetchDevice: PropTypes.func.isRequired,
     editDevice: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    devices: state.DevicesReducer.devices
+    device: state.DevicesReducer.device
 });
 
 const mapDispatchToProps = (dispatch) => ({

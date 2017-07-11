@@ -13,11 +13,10 @@ const DevicesActions = {
         return (dispatch) => {
             request.fetchDevice(id, (err, device) => {
                 if (err) {
-                    return dispatch({type: 'FETCH_DEVICES_ERROR', err});
+                    return dispatch({type: 'FETCH_DEVICE_ERROR', err});
                 }
-                const devices = [device];console.log(devices);
 
-                dispatch({type: 'FETCH_DEVICES_SUCCESS', devices: devices});
+                dispatch({type: 'FETCH_DEVICE_SUCCESS', device});
             });
         };
     },

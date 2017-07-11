@@ -1,11 +1,16 @@
 import update from 'immutability-helper';
 
 const initialState = {
-    devices: []
+    devices: [],
+    device: undefined
 };
 
 const DevicesReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'FETCH_DEVICE_SUCCESS':
+            return update(state, {
+                device: {$set: action.device}
+            });
         case 'FETCH_DEVICES_SUCCESS':
             return update(state, {
                 devices: {$set: action.devices}
