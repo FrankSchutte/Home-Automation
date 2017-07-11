@@ -20,8 +20,7 @@ const mongodb = {
     getDevice: function (id, callback) {
         MongoClient.connect(url, function (err, db) {
             db.collection('devices')
-                .findOne({"_id": ObjectID(id)})
-                .then(function (err, device) {
+                .findOne({"_id": ObjectID(id)}, function (err, device) {
                     callback(err, device);
                     db.close();
                 });
@@ -30,8 +29,8 @@ const mongodb = {
     getDevices: function (callback) {
         MongoClient.connect(url, function (err, db) {
             db.collection('devices')
-                .find({}).toArray()
-                .then(function (err, devices) {
+                .find({})
+                .toArray(function (err, devices) {
                     callback(err, devices);
                     db.close();
                 });
