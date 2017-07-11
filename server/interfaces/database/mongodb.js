@@ -6,21 +6,22 @@ const url = 'mongodb://192.168.0.51:27017/home_automation';
 const mongodb = {
     addDevice: function (device, callback) {
         MongoClient.connect(url, function (err, db) {
-            db.collection('devices').insertOne(device).then(function ({result}) {
-                if (!result.ok) {
-                    callback('Unable to add the device');
-                }
+            db.collection('devices').insertOne(device)
+                .then(function ({result}) {
+                    if (!result.ok) {
+                        callback('Unable to add the device');
+                    }
 
-                callback(err, 'Device has been successfully added');
-                db.close();
-            });
+                    callback(err, 'Device has been successfully added');
+                    db.close();
+                });
         });
     },
     getDevice: function (id, callback) {
         MongoClient.connect(url, function (err, db) {
             db.collection('devices')
                 .findOne({"_id": ObjectID(id)})
-                .toArray(function (err, device) {
+                .then(function (err, device) {
                     callback(err, device);
                     db.close();
                 });
@@ -29,8 +30,8 @@ const mongodb = {
     getDevices: function (callback) {
         MongoClient.connect(url, function (err, db) {
             db.collection('devices')
-                .find({})
-                .toArray(function (err, devices) {
+                .find({}).toArray()
+                .then(function (err, devices) {
                     callback(err, devices);
                     db.close();
                 });
