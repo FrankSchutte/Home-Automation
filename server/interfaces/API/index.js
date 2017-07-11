@@ -69,7 +69,7 @@ api.post('/v1/comports', function (req, res) {
 
 // Get a list of all devices
 api.get('/v1/devices', function (req, res) {
-    db.getDevices(function (err, devices) {
+    db.fetchDevices(function (err, devices) {
         const message = {
             err: err,
             devices: devices
