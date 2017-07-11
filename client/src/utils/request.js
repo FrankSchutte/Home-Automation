@@ -2,7 +2,7 @@ import superagent from 'superagent';
 
 const url = 'http://192.168.0.51:3000';
 
-const api = {
+const request = {
     fetchDevices: (callback) => {
         superagent
             .get(url + '/api/v1/devices')
@@ -25,4 +25,4 @@ const api = {
     }
 };
 
-export default api;
+export default request;

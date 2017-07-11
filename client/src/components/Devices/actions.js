@@ -1,10 +1,10 @@
-import api from '../../utils/api';
+import request from '../../utils/request';
 
 const DevicesActions = {
     fetchDevices: () => {
         return (dispatch) => {
             dispatch({type: 'FETCH_DEVICES_REQUEST'});
-            api.fetchDevices((err, devices) => {
+            request.fetchDevices((err, devices) => {
                 if (err) {
                     return dispatch({type: 'FETCH_DEVICES_ERROR', err});
                 }
@@ -16,7 +16,7 @@ const DevicesActions = {
     toggleDevice: (command) => {
         return (dispatch) => {
             dispatch({type: 'TOGGLE_DEVICE_REQUEST'});
-            api.toggleDevice(command,
+            request.toggleDevice(command,
                 (err, message) => {
                     if (err) {
                         return dispatch({type: 'TOGGLE_DEVICE_ERROR', err});
