@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import Device from './Device';
@@ -40,6 +41,12 @@ class Devices extends Component {
         );
     };
 }
+
+Devices.propTypes = {
+    devices: PropTypes.array.isRequired,
+    fetchDevices: PropTypes.func.isRequired,
+    toggleDevice: PropTypes.func.isRequired
+};
 
 const mapStateToProps = (state) => ({
     devices: state.DevicesReducer.devices
