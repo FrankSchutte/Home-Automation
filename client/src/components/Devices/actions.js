@@ -15,8 +15,9 @@ const DevicesActions = {
                 if (err) {
                     return dispatch({type: 'FETCH_DEVICES_ERROR', err});
                 }
+                const devices = [device];console.log(devices);
 
-                dispatch({type: 'FETCH_DEVICES_SUCCESS', devices: device});
+                dispatch({type: 'FETCH_DEVICES_SUCCESS', devices: devices});
             });
         };
     },

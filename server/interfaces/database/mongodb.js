@@ -19,7 +19,7 @@ const mongodb = {
     getDevice: function (id, callback) {
         MongoClient.connect(url, function (err, db) {
             db.collection('devices')
-                .find({"_id": ObjectID(id)})
+                .findOne({"_id": ObjectID(id)})
                 .toArray(function (err, device) {
                     callback(err, device);
                     db.close();
