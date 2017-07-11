@@ -79,6 +79,19 @@ api.get('/v1/devices', function (req, res) {
     });
 });
 
+api.get('/v1/devices/:id', function (req, res) {
+    const id = req.params.id;
+
+    db.getDevice(id, function (err, device) {
+        const message = {
+            err: err,
+            device: device
+        };
+
+        res.json(message);
+    });
+});
+
 // Add a device
 api.post('/v1/devices', function (req, res) {
     const device = req.body.device;

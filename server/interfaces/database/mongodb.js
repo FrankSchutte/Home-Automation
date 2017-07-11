@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
 
 const url = 'mongodb://192.168.0.51:27017/home_automation';
 
@@ -13,6 +14,16 @@ const mongodb = {
                 callback(err, 'Device has been successfully added');
                 db.close();
             });
+        });
+    },
+    getDevice: function (id, callback) {
+        MongoClient.connect(url, function (err, db) {
+            db.collection('devices')
+                .find({"_id": ObjectID(id)})
+                .toArray(function (err, device) {
+                    callback(err, device);
+                    db.close();
+                });
         });
     },
     getDevices: function (callback) {
