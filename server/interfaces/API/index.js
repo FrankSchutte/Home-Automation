@@ -94,7 +94,7 @@ api.get('/v1/devices/:id', function (req, res) {
 
 // Add a device
 api.post('/v1/devices', function (req, res) {
-    const device = req.body.device;
+    const device = req.body;
 
     db.addDevice(device, function (err, success) {
         const message = {
