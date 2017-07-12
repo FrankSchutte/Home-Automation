@@ -1,6 +1,9 @@
 import request from '../../utils/request';
 
 const DevicesActions = {
+    editAction: (action, name, value) => {
+        return {type: 'EDIT_ACTION', action, name, value};
+    },
     editField: (name, value) => {
         return {type: 'EDIT_FIELD', name, value};
     },
