@@ -7,20 +7,9 @@ import './style.css';
 
 class Edit extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            label: '',
-            location: '',
-            protocol: '',
-            turnDeviceOn: '',
-            turnDeviceOff: ''
-        };
-    };
-
     componentDidMount() {
         const id = this.props.match.params.id;
+
         this.props.fetchDevice(id);
     };
 
@@ -28,39 +17,36 @@ class Edit extends Component {
         const name = event.target.name;
         const value = event.target.value;
 
-        this.setState({
-            [name]: value
-        });
+        this.props.editField(name, value);
     };
 
     submitForm = (event) => {
+        const d = this.props.device;
         const device = {
-            label: this.state.label,
-            location: this.state.location,
-            protocol: this.state.protocol,
-            actions: {
-                turnDeviceOn: this.state.turnDeviceOn,
-                turnDeviceOff: this.state.turnDeviceOff
-            }
+            label: d.label,
+            location: d.location,
+            protocol: d.protocol,
+            actions: d.actions
         };
 
-        this.props.editDevice(device);
+        this.props.saveDevice(device);
+
         event.preventDefault();
     };
 
     render() {
         const device = this.props.device;
-        
+
         return (
             <section>
-                <h1>Add device</h1>
+                <h1>Edit device</h1>
                 <form onSubmit={this.submitForm.bind(this)}>
                     <label>
                         Label
                         <input type="text"
                                name="label"
                                onChange={this.handleChange.bind(this)}
-                               value={(device) ? device.label : ''}
+                               value={device.label}
                         />
                     </label>
                     <label>
@@ -68,7 +54,7 @@ class Edit extends Component {
                         <input type="text"
                                name="location"
                                onChange={this.handleChange.bind(this)}
-                               value={(device) ? device.location : ''}
+                               value={device.location}
                         />
                     </label>
                     <label>
@@ -76,23 +62,7 @@ class Edit extends Component {
                         <input type="text"
                                name="protocol"
                                onChange={this.handleChange.bind(this)}
-                               value={(device) ? device.protocol : ''}
-                        />
-                    </label>
-                    <label>
-                        Turn device on
-                        <input type="text"
-                               name="turnDeviceOn"
-                               onChange={this.handleChange.bind(this)}
-                               value={(device) ? JSON.stringify(device.actions.turnDeviceOn) : ''}
-                        />
-                    </label>
-                    <label>
-                        Turn device off
-                        <input type="text"
-                               name="turnDeviceOff"
-                               onChange={this.handleChange.bind(this)}
-                               value={(device) ? JSON.stringify(device.actions.turnDeviceOff) : ''}
+                               value={device.protocol}
                         />
                     </label>
                     <input type="submit" value="Edit"/>
@@ -103,9 +73,10 @@ class Edit extends Component {
 }
 
 Edit.propTypes = {
-    device: PropTypes.any,
+    device: PropTypes.object.isRequired,
+    editField: PropTypes.func.isRequired,
     fetchDevice: PropTypes.func.isRequired,
-    editDevice: PropTypes.func.isRequired
+    saveDevice: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -113,8 +84,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+    editField: (name, value) => dispatch(actions.editField(name, value)),
     fetchDevice: (id) => dispatch(actions.fetchDevice(id)),
-    editDevice: (device) => dispatch(actions.addDevice(device))
+    saveDevice: (device) => dispatch(actions.saveDevice(device))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Edit);

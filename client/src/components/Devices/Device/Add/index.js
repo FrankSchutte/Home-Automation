@@ -7,43 +7,37 @@ import './style.css';
 
 class Add extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            label: '',
-            location: '',
-            protocol: '',
-            turnDeviceOn: '',
-            turnDeviceOff: ''
-        };
+    componentDidMount() {
+        this.props.resetDevice();
     };
 
     handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
 
-        this.setState({
-            [name]: value
-        });
+        this.props.editField(name, value);
     };
 
     submitForm = (event) => {
+        const d = this.props.device;
         const device = {
-            label: this.state.label,
-            location: this.state.location,
-            protocol: this.state.protocol,
+            label: d.label,
+            location: d.location,
+            protocol: d.protocol,
             actions: {
-                turnDeviceOn: this.state.turnDeviceOn,
-                turnDeviceOff: this.state.turnDeviceOff
+                turnDeviceOn: d.turnDeviceOn,
+                turnDeviceOff: d.turnDeviceOff
             }
         };
 
-        this.props.addDevice(device);
+        this.props.saveDevice(device);
+
         event.preventDefault();
     };
 
     render() {
+        const device = this.props.device;
+
         return (
             <section>
                 <h1>Add device</h1>
@@ -53,6 +47,7 @@ class Add extends Component {
                         <input type="text"
                                name="label"
                                onChange={this.handleChange.bind(this)}
+                               value={device.label}
                         />
                     </label>
                     <label>
@@ -60,6 +55,7 @@ class Add extends Component {
                         <input type="text"
                                name="location"
                                onChange={this.handleChange.bind(this)}
+                               value={device.location}
                         />
                     </label>
                     <label>
@@ -67,20 +63,7 @@ class Add extends Component {
                         <input type="text"
                                name="protocol"
                                onChange={this.handleChange.bind(this)}
-                        />
-                    </label>
-                    <label>
-                        Turn device on
-                        <input type="text"
-                               name="turnDeviceOn"
-                               onChange={this.handleChange.bind(this)}
-                        />
-                    </label>
-                    <label>
-                        Turn device off
-                        <input type="text"
-                               name="turnDeviceOff"
-                               onChange={this.handleChange.bind(this)}
+                               value={device.protocol}
                         />
                     </label>
                     <input type="submit" value="Add"/>
@@ -91,13 +74,20 @@ class Add extends Component {
 }
 
 Add.propTypes = {
-    addDevice: PropTypes.func.isRequired
+    device: PropTypes.object.isRequired,
+    editField: PropTypes.func.isRequired,
+    resetDevice: PropTypes.func.isRequired,
+    saveDevice: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    device: state.DevicesReducer.device
+});
 
 const mapDispatchToProps = (dispatch) => ({
-    addDevice: (device) => dispatch(actions.addDevice(device))
+    editField: (name, value) => dispatch(actions.editField(name, value)),
+    resetDevice: () => dispatch(actions.resetDevice()),
+    saveDevice: (device) => dispatch(actions.saveDevice(device))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Add);

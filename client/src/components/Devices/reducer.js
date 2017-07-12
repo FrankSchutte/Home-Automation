@@ -2,15 +2,28 @@ import update from 'immutability-helper';
 
 const initialState = {
     devices: [],
-    device: undefined
+    device: {
+        label: '',
+        location: '',
+        protocol: '',
+        turnDeviceOn: '',
+        turnDeviceOff: ''
+    }
 };
 
 const DevicesReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'EDIT_FIELD':
+            return update(state, {
+                device: {[action.name]: {$set: action.value}}
+            });
         case 'FETCH_DEVICE_SUCCESS':
             return update(state, {
                 device: {$set: action.device}
             });
+        case 'FETCH_DEVICE_ERROR':
+            console.error(action.err);
+            return state;
         case 'FETCH_DEVICES_SUCCESS':
             return update(state, {
                 devices: {$set: action.devices}
@@ -18,6 +31,10 @@ const DevicesReducer = (state = initialState, action) => {
         case 'FETCH_DEVICES_ERROR':
             console.error(action.err);
             return state;
+        case 'RESET_DEVICE':
+            return update(state, {
+                device: {$set: initialState.device}
+            });
         case 'TOGGLE_DEVICE_SUCCESS':
             console.log(action.message);
             return state;

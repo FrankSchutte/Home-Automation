@@ -1,13 +1,8 @@
 import request from '../../utils/request';
 
 const DevicesActions = {
-    addDevice: (device) => {
-        return (dispatch) => {
-        };
-    },
-    editDevice: (device) => {
-        return (dispatch) => {
-        };
+    editField: (name, value) => {
+        return {type: 'EDIT_FIELD', name, value};
     },
     fetchDevice: (id) => {
         return (dispatch) => {
@@ -29,6 +24,14 @@ const DevicesActions = {
 
                 dispatch({type: 'FETCH_DEVICES_SUCCESS', devices});
             });
+        };
+    },
+    resetDevice: () => {
+        return {type: 'RESET_DEVICE'};
+    },
+    saveDevice: (device) => {
+        return (dispatch) => {
+            dispatch({type: "SAVE_DEVICE", device});
         };
     },
     toggleDevice: (command) => {
