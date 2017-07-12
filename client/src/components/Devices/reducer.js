@@ -6,13 +6,27 @@ const initialState = {
         label: '',
         location: '',
         protocol: '',
-        turnDeviceOn: '',
-        turnDeviceOff: ''
+        actions: {
+            turnDeviceOn: {
+                transmitterAddress: '',
+                unit: '',
+                switchOn: true
+            },
+            turnDeviceOff: {
+                transmitterAddress: '',
+                unit: '',
+                switchOn: false
+            }
+        }
     }
 };
 
 const DevicesReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'EDIT_ACTION':
+            return update(state, {
+                device: {actions: {[action.action]: {[action.name]: {$set: action.value}}}}
+            });
         case 'EDIT_FIELD':
             return update(state, {
                 device: {[action.name]: {$set: action.value}}

@@ -21,6 +21,17 @@ const request = {
                 callback(err, devices);
             });
     },
+    saveDevice: (device, callback) => {
+        superagent
+            .post(url + '/api/v1/devices')
+            .send(JSON.stringify(device))
+            .set('Content-Type', 'application/json')
+            .end((err, res) => {
+                const message = JSON.parse(res.text);
+
+                callback(err, message);
+            });
+    },
     toggleDevice: (command, callback) => {
         superagent
             .post(url + '/api/v1/code')

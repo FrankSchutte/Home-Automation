@@ -34,7 +34,14 @@ const DevicesActions = {
     },
     saveDevice: (device) => {
         return (dispatch) => {
-            dispatch({type: "SAVE_DEVICE", device});
+            request.saveDevice(device, (err, success) => {
+                if (err) {
+                    return dispatch({type: "SAVE_DEVICE", err});
+                }
+
+                dispatch({type: "SAVE_DEVICE", success});
+
+            });
         };
     },
     toggleDevice: (command) => {
