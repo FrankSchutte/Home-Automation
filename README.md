@@ -19,9 +19,9 @@ POST /api/v1/code
 Request body:
 {
     protocol: String [ NEW_REMOTE ],
-    action: {
+    commands: [{
         ...
-    }
+    }]
 }
 Response body:
 {
@@ -37,10 +37,9 @@ Query params:
 Response body:
 {
     err: undefined || String,
-    code: {
-        transmitterAddress: Number,
-        unit: Number
-    }
+    commands: [{
+        ...
+    }]
 }
 ```
 #### Get a list of comports
@@ -49,8 +48,7 @@ GET /api/v1/comports
 Response body:
 {
     err: undefined || String,
-    comports: 
-    [{
+    comports: [{
         comName: String,
         manufacturer: String,
         pnpId: String,
@@ -86,9 +84,9 @@ Response body:
         label: String,
         location: String,
         protocol: String,
-        actions: {
+        commands: [{
             ...
-        }
+        }]
     }, {
         ...
     }]
@@ -107,9 +105,9 @@ Response body:
         label: String,
         location: String,
         protocol: String,
-        actions: {
+        commands: [{
             ...
-        }
+        }]
     }
 }
 ```
@@ -121,9 +119,9 @@ Request body:
     label: String,
     location: String,
     protocol: String,
-    actions: {
+    commands: [{
         ...
-    }
+    }]
 }
 Response body:
 {
@@ -142,11 +140,10 @@ Send to serial port:
 }
 Received from serial port: 
     err: undefined || String
-    code:
-    {
+    commands: [{
         address: Number,
         unit: Number
-    }
+    }]
 ```
 #### Toggle devices
 ```
@@ -154,11 +151,11 @@ Send to serial port:
 {
     type: 'SEND_CODE',
     protocol: 'NEW_REMOTE',
-    action: {
+    commands: [{
         transmitterAddress: Number,
         unit: Number,
         switchOn: Boolean
-    }
+    }]
 }
 Received from serial port:
     err: undefined || String

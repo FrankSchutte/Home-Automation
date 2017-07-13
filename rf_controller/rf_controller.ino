@@ -45,9 +45,11 @@ void loop() {
       }
     } else if (type.equals("SEND_CODE")) {
       if (protocol.equals("NEW_REMOTE")) {
-        unsigned long transmitterAddress = req["action"]["transmitterAddress"];
-        byte unit = req["action"]["unit"];
-        bool switchOn = req["action"]["switchOn"];
+        JsonObject &commands = req["commands"][0];
+        
+        unsigned long transmitterAddress = commands["transmitterAddress"];
+        byte unit = commands["unit"];
+        bool switchOn = commands["switchOn"];
 
         // Send rf code
         NewRemoteTransmitter transmitter(transmitterAddress, TRANSMITTER_PIN);
@@ -67,9 +69,10 @@ void learnCode(NewRemoteCode receivedCode) {
 
   StaticJsonBuffer<200> jsonBuffer;
   JsonObject &res = jsonBuffer.createObject();
+  JsonObject &commands = res.createNestedArray("commands").createNestedObject();
 
-  res["address"] = receivedCode.address;
-  res["unit"] = receivedCode.unit;
+  commands["transmitterAddress"] = receivedCode.address;
+  commands["unit"] = receivedCode.unit;
 
   printJsonObject(res);
 }

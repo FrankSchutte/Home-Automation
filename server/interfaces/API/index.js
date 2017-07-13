@@ -10,10 +10,10 @@ api.use(bodyparser.json());
 api.use(bodyparser.urlencoded({extended: true}));
 
 // Toggle a device with a given action
-api.post('/v1/code', function (req, res) {
-    const command = req.body;
+api.post('/v1/command', function (req, res) {
+    const action = req.body;
 
-    arduino.toggleDevice(command, function (err, success) {
+    arduino.toggleDevice(action, function (err, success) {
         const message = {
             err: err,
             success: success
@@ -24,17 +24,17 @@ api.post('/v1/code', function (req, res) {
 });
 
 // Learn a new code
-api.get('/v1/code/learn', function (req, res) {
+api.get('/v1/command/learn', function (req, res) {
     const protocol = req.query.protocol;
 
     if (protocol === undefined) {
         return res.json({err: 'Please supply the protocol you want to listen to, options are [ \' NEW_REMOTE\' ]'});
     }
 
-    arduino.learnCode(protocol, function (err, code) {
+    arduino.learnCommand(protocol, function (err, commands) {
         const message = {
             err: err,
-            code: code
+            commands: commands
         };
 
         res.json(message);

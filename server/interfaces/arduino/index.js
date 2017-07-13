@@ -13,7 +13,7 @@ const Arduino = {
             callback(err, comports);
         });
     },
-    learnCode: function (protocol, callback) {
+    learnCommand: function (protocol, callback) {
         const action = {
             type: 'LEARN_CODE',
             protocol: protocol
@@ -26,22 +26,22 @@ const Arduino = {
             }
 
             port.once('data', function (data) {
-                const code = JSON.parse(data);
+                const commands = JSON.parse(data);
 
-                callback(err, code);
+                callback(err, commands);
             });
         });
     },
     setComport: function (comName, callback) {
         initializePort(comName, callback);
     },
-    toggleDevice: function (command, callback) {
+    toggleDevice: function (action, callback) {
         if (port === undefined || !port.isOpen()) {
             return callback('Make sure to set the comport');
         }
 
-        command.type = 'SEND_CODE';
-        port.write(JSON.stringify(command), function (err) {
+        action.type = 'SEND_CODE';
+        port.write(JSON.stringify(action), function (err) {
             if (err) {
                 console.error(err);
                 return callback('Unable to write action to Arduino');
