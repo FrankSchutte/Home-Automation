@@ -24,7 +24,7 @@ const request = {
     saveDevice: (device, callback) => {
         superagent
             .post(url + '/api/v1/devices')
-            .send(JSON.stringify(device))
+            .send(device)
             .set('Content-Type', 'application/json')
             .end((err, res) => {
                 const message = JSON.parse(res.text);
@@ -34,7 +34,7 @@ const request = {
     },
     toggleDevice: (command, callback) => {
         superagent
-            .post(url + '/api/v1/code')
+            .post(url + '/api/v1/command')
             .send(command)
             .set('Content-Type', 'application/json')
             .end((err, res) => {
