@@ -6,12 +6,9 @@ import routes from '../../routes';
 import './style.css';
 
 const AdminPanel = () => {
-    const adminPanelRoutes = routes.find((route) => {
-        if (route.path === '/admin') {
-            return route;
-        }
-        return undefined;
-    });
+    const adminPanelRoutes = routes.find((route) => (
+        route.path === '/admin'
+    ));
 
     return (
         <nav>

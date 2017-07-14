@@ -6,9 +6,9 @@ const initialState = {
 };
 
 const DevicesReducer = (state = initialState, action) => {
-    const deviceIndex = state.devices.findIndex((device) => {
-        return device._id === action.id;
-    });
+    const deviceIndex = state.devices.findIndex((device) => (
+        device._id === action.id
+    ));
 
     switch (action.type) {
         case 'FETCH_DEVICES_SUCCESS':
