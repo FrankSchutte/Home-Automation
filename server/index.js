@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 
-const api = require('./interfaces/API/index');
+const api = require('./interfaces/API');
 
 const app = express();
 const port = 3000;

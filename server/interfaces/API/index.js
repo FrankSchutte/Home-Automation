@@ -31,17 +31,17 @@ api.get('/v1/command/learn', function (req, res) {
         return res.json({err: 'Please supply the protocol you want to listen to, options are [ \' NEW_REMOTE\' ]'});
     }
 
-    arduino.learnCommand(protocol, function (err, commands) {
+    arduino.learnCommand(protocol, function (err, command) {
         const message = {
             err: err,
-            commands: commands
+            command: command
         };
 
         res.json(message);
     });
 });
 
-// Get a list of all available comports
+// Get a list of available comports
 api.get('/v1/comports', function (req, res) {
     arduino.getComports(function (err, comports) {
         const message = {
@@ -96,10 +96,11 @@ api.get('/v1/devices/:id', function (req, res) {
 api.post('/v1/devices', function (req, res) {
     const device = req.body;
 
-    db.addDevice(device, function (err, success) {
+    db.addDevice(device, function (err, success, id) {
         const message = {
             err: err,
-            success: success
+            success: success,
+            id: id
         };
 
         res.json(message);

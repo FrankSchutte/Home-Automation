@@ -42,24 +42,30 @@ void loop() {
       if (protocol.equals("NEW_REMOTE")) {
         // Start receiving rf code
         NewRemoteReceiver::enable();
+        return;
       }
     } else if (type.equals("SEND_COMMAND")) {
       if (protocol.equals("NEW_REMOTE")) {
-        JsonObject &commands = req["commands"][0];
+        JsonObject &command = req["command"][0];
         
-        unsigned long transmitterAddress = commands["transmitterAddress"];
-        byte unit = commands["unit"];
-        bool switchOn = commands["switchOn"];
+        unsigned long transmitterAddress = command["transmitterAddress"];
+        byte unit = command["unit"];
+        bool switchOn = command["switchOn"];
 
         // Send rf code
         NewRemoteTransmitter transmitter(transmitterAddress, TRANSMITTER_PIN);
         transmitter.sendUnit(unit, switchOn);
         
-        res["success"] = "Device has been toggled";
+        res["success"] = "Command was successfully sent";
         
         printJsonObject(res);
+        return;
       }
     }
+
+    res["err"] = "Type or protocol was incorrect";
+    printJsonObject(res);
+    return;
   }
 }
 
@@ -69,10 +75,10 @@ void learnCode(NewRemoteCode receivedCode) {
 
   StaticJsonBuffer<200> jsonBuffer;
   JsonObject &res = jsonBuffer.createObject();
-  JsonObject &commands = res.createNestedArray("commands").createNestedObject();
+  JsonObject &command = res.createNestedArray("command").createNestedObject();
 
-  commands["transmitterAddress"] = receivedCode.address;
-  commands["unit"] = receivedCode.unit;
+  command["transmitterAddress"] = receivedCode.address;
+  command["unit"] = receivedCode.unit;
 
   printJsonObject(res);
 }

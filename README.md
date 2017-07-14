@@ -14,12 +14,12 @@ Index page displaying Hello World!
 ## Interfaces
 ### API
 #### Toggle a device
-POST /api/v1/code
+POST /api/v1/command
 ```
 Request body:
 {
     protocol: String [ NEW_REMOTE ],
-    commands: [{
+    command: [{
         ...
     }]
 }
@@ -29,15 +29,15 @@ Response body:
     success: String
 }
 ```
-#### Learn a new code
-GET /api/v1/code/learn
+#### Learn new command
+GET /api/v1/command/learn?protocol=
 ```
 Query params:
     protocol: String [ NEW_REMOTE ]
 Response body:
 {
     err: undefined || String,
-    commands: [{
+    command: [{
         ...
     }]
 }
@@ -85,7 +85,12 @@ Response body:
         location: String,
         protocol: String,
         commands: [{
-            ...
+            "turnDeviceOn": {
+                ...
+            },
+            "turnDeviceOff": {
+                ...
+            }
         }]
     }, {
         ...
@@ -106,7 +111,12 @@ Response body:
         location: String,
         protocol: String,
         commands: [{
-            ...
+            "turnDeviceOn": {
+                ...
+            },
+            "turnDeviceOff": {
+                ...
+            }
         }]
     }
 }
@@ -120,7 +130,12 @@ Request body:
     location: String,
     protocol: String,
     commands: [{
-        ...
+        "turnDeviceOn": {
+            ...
+        },
+        "turnDeviceOff": {
+            ...
+        }
     }]
 }
 Response body:
@@ -135,13 +150,13 @@ Response body:
 ```
 Send to serial port:
 {
-    type: 'LEARN_CODE',
+    type: 'LEARN_COMMAND',
     protocol: 'NEW_REMOTE'
 }
 Received from serial port: 
     err: undefined || String
-    commands: [{
-        address: Number,
+    command: [{
+        transmitterAddress: Number,
         unit: Number
     }]
 ```
@@ -149,7 +164,7 @@ Received from serial port:
 ```
 Send to serial port:
 {
-    type: 'SEND_CODE',
+    type: 'SEND_COMMAND',
     protocol: 'NEW_REMOTE',
     commands: [{
         transmitterAddress: Number,
