@@ -12,17 +12,19 @@ class Devices extends Component {
         this.props.fetchDevices();
     };
 
-    toggleDevice = (command) => {
-        this.props.toggleDevice(command);
+    toggleDevice = (id, command) => {
+        this.props.toggleDevice(id, command);
     };
 
     render() {
         const devices = this.props.devices.map((device) => (
             <Device key={device._id}
+                    commands={device.commands}
+                    disabled={device.disabled}
+                    id={device._id}
                     label={device.label}
                     location={device.location}
                     protocol={device.protocol}
-                    commands={device.commands}
                     toggleDevice={this.toggleDevice}
             />
         ));
@@ -38,17 +40,19 @@ class Devices extends Component {
 
 Devices.propTypes = {
     devices: PropTypes.array.isRequired,
+    errMessage: PropTypes.string.isRequired,
     fetchDevices: PropTypes.func.isRequired,
     toggleDevice: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    devices: state.DevicesReducer.devices
+    devices: state.DevicesReducer.devices,
+    errMessage: state.DevicesReducer.errMessage
 });
 
 const mapDispatchToProps = (dispatch) => ({
     fetchDevices: () => dispatch(actions.fetchDevices()),
-    toggleDevice: (command) => dispatch(actions.toggleDevice(command))
+    toggleDevice: (id, command) => dispatch(actions.toggleDevice(id, command))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Devices);

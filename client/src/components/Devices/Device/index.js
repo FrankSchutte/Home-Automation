@@ -17,7 +17,7 @@ class Device extends Component {
             command: commandWrapper
         };
 
-        this.props.toggleDevice(commandObj);
+        this.props.toggleDevice(this.props.id, commandObj);
     };
 
     render() {
@@ -32,18 +32,26 @@ class Device extends Component {
                     {this.props.location} <br/>
                     {this.props.protocol}
                 </p>
-                <button onClick={this.toggleDevice.bind(this, turnDeviceOn)}>Turn device on</button>
-                <button onClick={this.toggleDevice.bind(this, turnDeviceOff)}>Turn device off</button>
+                <button onClick={this.toggleDevice.bind(this, turnDeviceOn)}
+                        disabled={this.props.disabled}>
+                    Turn device on
+                </button>
+                <button onClick={this.toggleDevice.bind(this, turnDeviceOff)}
+                        disabled={this.props.disabled}>
+                    Turn device off
+                </button>
             </div>
         );
     };
 }
 
 Device.propTypes = {
+    commands: PropTypes.array.isRequired,
+    disabled: PropTypes.bool,
+    id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     protocol: PropTypes.string.isRequired,
-    commands: PropTypes.array.isRequired,
     toggleDevice: PropTypes.func.isRequired
 };
 

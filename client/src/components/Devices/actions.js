@@ -12,14 +12,16 @@ const actions = {
             });
         }
     },
-    toggleDevice: (command) => {
+    toggleDevice: (id, command) => {
         return (dispatch) => {
+            dispatch({type: 'TOGGLE_DEVICE_PENDING', id});
+
             request.toggleDevice(command, (err, success) => {
                 if (err) {
-                    return dispatch({type: 'TOGGLE_DEVICE_ERROR', err});
+                    return dispatch({type: 'TOGGLE_DEVICE_ERROR', err, id});
                 }
 
-                dispatch({type: 'TOGGLE_DEVICE_SUCCESS', success});
+                dispatch({type: 'TOGGLE_DEVICE_SUCCESS', success, id});
             });
         };
     }
