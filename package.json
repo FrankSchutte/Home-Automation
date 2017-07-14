@@ -4,6 +4,7 @@
   "description": "Home project to create a central system, usable with smartphone, to control 433 mhz outlet sockets.",
   "main": "index.js",
   "scripts": {
+    "start": "node_modules/.bin/nodemon server/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,5 +26,8 @@
     "express": "^4.15.3",
     "mongodb": "^2.2.29",
     "serialport": "^4.0.7"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
