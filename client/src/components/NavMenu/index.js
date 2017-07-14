@@ -1,16 +1,33 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import './style.css';
 
-const NavMenu = () => {
+const NavMenu = (props) => {
     return (
         <nav>
             <h1>My nav</h1>
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/devices">Devices</NavLink>
+            {props.routes.map((route) => (
+                <NavLink key={route.path}
+                         exact={route.exact}
+                         to={route.path}
+                         activeClassName="active">
+                    {route.description}
+                </NavLink>
+            ))}
         </nav>
     );
+};
+
+NavMenu.propTypes = {
+    routes: PropTypes.arrayOf(
+        PropTypes.shape({
+            path: PropTypes.string.isRequired,
+            component: PropTypes.func.isRequired,
+            description: PropTypes.string.isRequired
+        })
+    ).isRequired
 };
 
 export default NavMenu;
