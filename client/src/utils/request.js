@@ -7,6 +7,10 @@ const request = {
         superagent
             .get(url + '/api/v1/devices')
             .end((err, res) => {
+                if (err) {
+                    return callback(err);
+                }
+
                 const devices = JSON.parse(res.text).devices;
 
                 callback(err, devices);
@@ -19,8 +23,7 @@ const request = {
             .set('Content-Type', 'application/json')
             .end((err, res) => {
                 if (err) {
-                    callback(err);
-                    return;
+                    return callback(err);
                 }
 
                 const parsedRes = JSON.parse(res.text);
