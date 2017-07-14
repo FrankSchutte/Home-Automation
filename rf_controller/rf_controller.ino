@@ -38,12 +38,12 @@ void loop() {
     String type = req["type"];
     String protocol = req["protocol"];
 
-    if (type.equals("LEARN_CODE")) {
+    if (type.equals("LEARN_COMMAND")) {
       if (protocol.equals("NEW_REMOTE")) {
         // Start receiving rf code
         NewRemoteReceiver::enable();
       }
-    } else if (type.equals("SEND_CODE")) {
+    } else if (type.equals("SEND_COMMAND")) {
       if (protocol.equals("NEW_REMOTE")) {
         JsonObject &commands = req["commands"][0];
         

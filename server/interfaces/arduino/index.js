@@ -15,14 +15,14 @@ const Arduino = {
     },
     learnCommand: function (protocol, callback) {
         const action = {
-            type: 'LEARN_CODE',
+            type: 'LEARN_COMMAND',
             protocol: protocol
         };
 
         port.write(JSON.stringify(action), function (err) {
             if (err) {
                 console.error(err);
-                return callback('Unable to learn a new code');
+                return callback('Unable to learn a new command');
             }
 
             port.once('data', function (data) {
@@ -40,7 +40,7 @@ const Arduino = {
             return callback('Make sure to set the comport');
         }
 
-        action.type = 'SEND_CODE';
+        action.type = 'SEND_COMMAND';
         port.write(JSON.stringify(action), function (err) {
             if (err) {
                 console.error(err);
