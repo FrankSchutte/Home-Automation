@@ -5,7 +5,7 @@ const actions = {
         return (dispatch) => {
             request.fetchDevices((err, devices) => {
                 if (err) {
-                    return dispatch({type: 'FETCH_DEVICES_SUCCESS', err});
+                    return dispatch({type: 'FETCH_DEVICES_ERROR', err});
                 }
 
                 dispatch({type: 'FETCH_DEVICES_SUCCESS', devices});

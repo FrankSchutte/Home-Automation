@@ -32,6 +32,9 @@ class Devices extends Component {
         return (
             <section>
                 <h1>My devices</h1>
+                <div>
+                    {this.props.errMessage}
+                </div>
                 {devices}
             </section>
         );
