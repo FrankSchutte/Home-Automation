@@ -1,7 +1,9 @@
 import {combineReducers} from 'redux';
 
-const reducers = combineReducers({
+import DevicesReducer from '../components/Devices/reducer';
 
+const reducers = combineReducers({
+    DevicesReducer
 });
 
 export default reducers;
