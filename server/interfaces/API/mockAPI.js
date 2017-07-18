@@ -6,27 +6,19 @@ const mockApi = express.Router();
 mockApi.use(bodyparser.json());
 mockApi.use(bodyparser.urlencoded({extended: true}));
 
-// Toggle a device with a given action
-mockApi.post('/v1/command', function (req, res) {
-    const message = {
-        err: undefined,
-        success: 'Mock device should be toggled'
-    };
+// Command to perform an action
+mockApi.post('/v1/performAction', function (req, res) {
+    let message;
+    const action = req.body;
 
-    res.json(message);
-});
-
-// Learn a new code
-mockApi.get('/v1/command/learn', function (req, res) {
-    const command = [{
-        "transmitterAddress": 123456,
-        "unit": 7
-    }];
-
-    const message = {
-        err: undefined,
-        command: command
-    };
+    switch (action.type) {
+        case 'TOGGLE_DEVICE':
+            message = {
+                err: undefined,
+                success: 'Mock device should be toggled'
+            };
+            break;
+    }
 
     res.json(message);
 });
@@ -65,6 +57,12 @@ mockApi.post('/v1/comports', function (req, res) {
 
 // Get a list of all devices
 mockApi.get('/v1/devices', function (req, res) {
+    const devices = devicesList.map((device) => ({
+        _id: device._id,
+        label: device.label,
+        location: device.location
+    }));
+
     const message = {
         err: undefined,
         devices: devices
@@ -74,7 +72,7 @@ mockApi.get('/v1/devices', function (req, res) {
 });
 
 mockApi.get('/v1/devices/:id', function (req, res) {
-    const device = devices.find((device) => {
+    const device = devicesList.find((device) => {
         if (device._id === req.params.id) {
             return device;
         }
@@ -91,18 +89,21 @@ mockApi.get('/v1/devices/:id', function (req, res) {
 // Add a device
 mockApi.post('/v1/devices', function (req, res) {
     const device = req.body;
+    device._id = "123456";
+
+    devicesList.push(device);
 
     const message = {
         err: undefined,
         success: 'Device has been successfully added',
-        _id: 123456
+        _id: device._id
     };
 
     res.json(message);
 });
 
-const devices = [{
-    _id: "11111",
+const devicesList = [{
+    _id: "111111",
     label: 'Device 1',
     location: 'Location 1',
     protocol: 'NEW_REMOTE',
