@@ -75,7 +75,7 @@ mockApi.get('/v1/devices', function (req, res) {
 
 mockApi.get('/v1/devices/:id', function (req, res) {
     const device = devices.find((device) => {
-        if (device._id === parseInt(req.params.id)) {
+        if (device._id === req.params.id) {
             return device;
         }
     });
@@ -102,7 +102,7 @@ mockApi.post('/v1/devices', function (req, res) {
 });
 
 const devices = [{
-    _id: 11111,
+    _id: "11111",
     label: 'Device 1',
     location: 'Location 1',
     protocol: 'NEW_REMOTE',
@@ -119,7 +119,7 @@ const devices = [{
         }
     }]
 }, {
-    _id: 222222,
+    _id: "222222",
     label: 'Device 2',
     location: 'Location 2',
     protocol: 'NEW_REMOTE',
