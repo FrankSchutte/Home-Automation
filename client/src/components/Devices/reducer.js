@@ -7,7 +7,7 @@ const initialState = {
 
 const DevicesReducer = (state = initialState, action) => {
     const deviceIndex = state.devices.findIndex((device) => (
-        device._id === action.id
+        device._id === action._id
     ));
 
     switch (action.type) {
@@ -16,7 +16,6 @@ const DevicesReducer = (state = initialState, action) => {
                 devices: {$set: action.devices}
             });
         case 'TOGGLE_DEVICE_ERROR':
-            console.error(action.err);
             return update(state, {
                 errMessage: {$set: JSON.stringify(action.err)},
                 devices: {[deviceIndex]: {disabled: {$set: ''}}}

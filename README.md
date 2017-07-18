@@ -14,14 +14,13 @@ Index page displaying Hello World!
 ## Interfaces
 ### API
 #### Toggle a device
-POST /api/v1/command
+POST /api/v1/performAction
 ```
 Request body:
 {
-    protocol: String [ NEW_REMOTE ],
-    command: [{
-        ...
-    }]
+    type: 'TOGGLE_DEVICE',
+    _id: String,
+    action: String [ 'turnDeviceOn', 'turnDeviceOff' ]
 }
 Response body:
 {
@@ -30,10 +29,13 @@ Response body:
 }
 ```
 #### Learn new command
-GET /api/v1/command/learn?protocol=
+POST /api/v1/performAction
 ```
-Query params:
+Request body:
+{
+    type: 'LEARN_COMMAND',
     protocol: String [ NEW_REMOTE ]
+}
 Response body:
 {
     err: undefined || String,
@@ -78,20 +80,11 @@ GET /api/v1/devices
 ```
 Response body:
 {
-    err: undefined || String,
+    err: String || undefined,
     devices: [{
         _id: String,
         label: String,
-        location: String,
-        protocol: String,
-        commands: [{
-            "turnDeviceOn": {
-                ...
-            },
-            "turnDeviceOff": {
-                ...
-            }
-        }]
+        location: String
     }, {
         ...
     }]
@@ -142,7 +135,7 @@ Response body:
 {
     err: undefined || String,
     success: String,
-    id: String
+    _id: String
 }
 ```
 ### Arduino

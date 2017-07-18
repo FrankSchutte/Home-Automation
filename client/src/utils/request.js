@@ -18,7 +18,7 @@ const request = {
     },
     toggleDevice: (command, callback) => {
         superagent
-            .post(url + '/api/v1/command')
+            .post(url + '/api/v1/performAction')
             .send(command)
             .set('Content-Type', 'application/json')
             .end((err, res) => {
