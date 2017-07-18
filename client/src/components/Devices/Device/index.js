@@ -47,7 +47,7 @@ class Device extends Component {
 
 Device.propTypes = {
     commands: PropTypes.array.isRequired,
-    disabled: PropTypes.bool,
+    disabled: PropTypes.string,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
