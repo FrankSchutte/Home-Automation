@@ -10,13 +10,13 @@ const actions = {
 
                 dispatch({type: 'FETCH_DEVICES_SUCCESS', devices});
             });
-        }
+        };
     },
     toggleDevice: (device_id, action) => {
         const command = {
-            type: 'TOGGLE_DEVICE',
+            type: 'SEND_COMMAND',
             _id: device_id,
-            action
+            action: action
         };
 
         return (dispatch) => {
