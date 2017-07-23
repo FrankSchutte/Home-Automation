@@ -9,36 +9,35 @@ const api = express.Router();
 api.use(bodyparser.json());
 api.use(bodyparser.urlencoded({extended: true}));
 
-// Toggle a device with a given action
-api.post('/v1/command', function (req, res) {
-    const action = req.body;
+// Command to perform an action
+api.post('/v1/performAction', function (req, res) {
+    let action = req.body;
 
-    arduino.toggleDevice(action, function (err, success) {
-        const message = {
-            err: err,
-            success: success
-        };
+    const performAction = function () {
+        arduino.performAction(action, function (message) {
+            res.json(message);
+        });
+    };
 
-        res.json(message);
-    });
-});
+    switch (action.type) {
+        case 'SEND_COMMAND':
+            db.getDevice(action._id, function (err, device) {
+                const originalAction = action;
 
-// Learn a new code
-api.get('/v1/command/learn', function (req, res) {
-    const protocol = req.query.protocol;
-
-    if (protocol === undefined) {
-        return res.json({err: 'Please supply the protocol you want to listen to, options are [ \' NEW_REMOTE\' ]'});
+                action = {
+                    type: originalAction.type,
+                    protocol: device.protocol,
+                    command: [
+                        device.commands[0][originalAction.action]
+                    ]
+                };
+                performAction();
+            });
+            break;
+        default:
+            performAction();
+            break;
     }
-
-    arduino.learnCommand(protocol, function (err, command) {
-        const message = {
-            err: err,
-            command: command
-        };
-
-        res.json(message);
-    });
 });
 
 // Get a list of available comports
