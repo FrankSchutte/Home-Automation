@@ -7,7 +7,7 @@ const Arduino = {
         SerialPort.list(function (err, comports) {
             if (err) {
                 console.error(err);
-                return callback('Unable to fetch connected com devices');
+                return callback({err: 'Unable to fetch connected com devices'});
             }
 
             callback(err, comports);
@@ -18,13 +18,13 @@ const Arduino = {
     },
     performAction: function (action, callback) {
         if (port === undefined || !port.isOpen()) {
-            return callback('Make sure to set the comport');
+            return callback({err: 'Make sure to set the comport'});
         }
 
         port.write(JSON.stringify(action), function (err) {
             if (err) {
                 console.error(err);
-                return callback('Unable to write action to Arduino');
+                return callback({err: 'Unable to write action to Arduino'});
             }
 
             port.once('data', function (data) {
@@ -41,7 +41,7 @@ const initializePort = function (comName, callback) {
     }, function (err) {
         if (err) {
             console.error(err);
-            return callback('Unable to connect to com device');
+            return callback({err: 'Unable to connect to com device'});
         }
 
         console.log('Serial port connection established::\n', comName);
