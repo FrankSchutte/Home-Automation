@@ -38,7 +38,7 @@ const mongodb = {
     getDevices: function (callback) {
         MongoClient.connect(url, function (err, db) {
             db.collection('devices')
-                .find({})
+                .find({}, {_id: 1, label: 1, location: 1})
                 .toArray()
                 .then(function (devices) {
                     callback(undefined, devices);
