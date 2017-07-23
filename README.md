@@ -159,7 +159,7 @@ Send to serial port:
 {
     type: 'SEND_COMMAND',
     protocol: 'NEW_REMOTE',
-    commands: [{
+    command: [{
         transmitterAddress: Number,
         unit: Number,
         switchOn: Boolean
