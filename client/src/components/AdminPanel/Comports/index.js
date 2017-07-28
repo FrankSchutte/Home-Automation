@@ -10,6 +10,7 @@ class Comports extends Component {
 
     componentDidMount() {
         this.props.fetchComports();
+        this.props.fetchCurrentComport();
     }
 
     setComport = (comName) => {
@@ -41,6 +42,7 @@ Comports.propTypes = {
     comports: PropTypes.array.isRequired,
     currentComport: PropTypes.object.isRequired,
     fetchComports: PropTypes.func.isRequired,
+    fetchCurrentComport: PropTypes.func.isRequired,
     setComport: PropTypes.func.isRequired
 };
 
@@ -51,6 +53,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     fetchComports: () => dispatch(actions.fetchComports()),
+    fetchCurrentComport: () => dispatch(actions.fetchCurrentComport()),
     setComport: (comName) => dispatch(actions.setComport(comName))
 });
 

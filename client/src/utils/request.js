@@ -16,6 +16,21 @@ const request = {
                 callback(err, comports);
             });
     },
+    fetchCurrentComport: (callback) => {
+        superagent
+            .get(url + '/api/v1/comports/current')
+            .end((err, res) => {
+                if (err) {
+                    return callback(err);
+                }
+
+                const parsedRes = JSON.parse(res.text);
+                const errMessage = parsedRes.err;
+                const currentComport = JSON.parse(res.text).comport;
+
+                callback(errMessage, currentComport);
+            });
+    },
     fetchDevices: (callback) => {
         superagent
             .get(url + '/api/v1/devices')
