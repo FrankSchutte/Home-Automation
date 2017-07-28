@@ -11,9 +11,11 @@ const request = {
                     return callback(err);
                 }
 
-                const comports = JSON.parse(res.text).comports;
+                const parsedRes = JSON.parse(res.text);
+                const errMessage = parsedRes.err;
+                const comports = parsedRes.comports;
 
-                callback(err, comports);
+                callback(errMessage, comports);
             });
     },
     fetchCurrentComport: (callback) => {
@@ -26,9 +28,9 @@ const request = {
 
                 const parsedRes = JSON.parse(res.text);
                 const errMessage = parsedRes.err;
-                const currentComport = JSON.parse(res.text).comport;
+                const comport = parsedRes.comport;
 
-                callback(errMessage, currentComport);
+                callback(errMessage, comport);
             });
     },
     fetchDevices: (callback) => {
@@ -39,9 +41,11 @@ const request = {
                     return callback(err);
                 }
 
-                const devices = JSON.parse(res.text).devices;
+                const parsedRes = JSON.parse(res.text);
+                const errMessage = parsedRes.err;
+                const devices = parsedRes.devices;
 
-                callback(err, devices);
+                callback(errMessage, devices);
             });
     },
     setComport: (comName, callback) => {
