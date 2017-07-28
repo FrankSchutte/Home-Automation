@@ -4,17 +4,15 @@ let port;
 
 const Arduino = {
     getComport: function (callback) {
-        let err;
         if (port === undefined || !port.isOpen()) {
-            err = 'No comport is active';
+            return callback('No comport is active');
         }
 
-        callback(err, port.path);
+        callback(undefined, port.path);
     },
     getComports: function (callback) {
         SerialPort.list(function (err, comports) {
             if (err) {
-                console.error(err);
                 return callback({err: 'Unable to fetch connected com devices'});
             }
 
