@@ -5,6 +5,8 @@
 */
 
 #include <ArduinoJson.h>
+#include <RemoteReceiver.h>
+#include <RemoteTransmitter.h>
 #include <NewRemoteReceiver.h>
 #include <NewRemoteTransmitter.h>
 
@@ -13,10 +15,6 @@
 
 void setup() {
   Serial.begin(9600);
-
-  // Setup the NewRemoteReceiver, and disable it to not listen to rf signals
-  NewRemoteReceiver::init(0, 2, learnCode);
-  NewRemoteReceiver::disable();
 }
 
 void loop() {
@@ -29,7 +27,7 @@ void loop() {
 
     if (!req.success()) {
       res["err"] = "Failed to parse JSON";
-      
+
       printJsonObject(res);
       return;
     }
@@ -37,50 +35,39 @@ void loop() {
     // If JSON is valid further actions are determined by the type and protocol
     String type = req["type"];
     String protocol = req["protocol"];
+    
+    boolean actionPerformed = false;
 
     if (type.equals("LEARN_COMMAND")) {
-      if (protocol.equals("NEW_REMOTE")) {
-        // Start receiving rf code
-        NewRemoteReceiver::enable();
-        return;
+      if (protocol.equals("REMOTE_SWITCH")) {
+        receiveRemoteSwitch();
+        actionPerformed = true;
+      }
+      else if (protocol.equals("NEW_REMOTE_SWITCH")) {
+        receiveNewRemoteSwitch();
+        actionPerformed = true;
       }
     } else if (type.equals("SEND_COMMAND")) {
-      if (protocol.equals("NEW_REMOTE")) {
-        JsonObject &command = req["command"][0];
-        
-        unsigned long transmitterAddress = command["transmitterAddress"];
-        byte unit = command["unit"];
-        bool switchOn = command["switchOn"];
+      JsonObject &command = req["command"][0];
 
-        // Send rf code
-        NewRemoteTransmitter transmitter(transmitterAddress, TRANSMITTER_PIN);
-        transmitter.sendUnit(unit, switchOn);
-        
-        res["success"] = "Command was successfully sent";
-        
-        printJsonObject(res);
-        return;
+      if (protocol.equals("REMOTE_SWITCH")) {
+        sendRemoteSwitch(command);
       }
+      else if (protocol.equals("NEW_REMOTE_SWITCH")) {
+        sendNewRemoteSwitch(command);
+      }
+
+      res["success"] = "Command was successfully sent";
+      printJsonObject(res);
+
+      actionPerformed = true;
     }
 
-    res["err"] = "Type or protocol was incorrect";
-    printJsonObject(res);
-    return;
+    if (!actionPerformed) {
+      res["err"] = "Type or protocol was incorrect";
+      printJsonObject(res);
+    }
   }
-}
-
-void learnCode(NewRemoteCode receivedCode) {
-  // Stop receiving rf signals
-  NewRemoteReceiver::disable();
-
-  StaticJsonBuffer<200> jsonBuffer;
-  JsonObject &res = jsonBuffer.createObject();
-  JsonObject &command = res.createNestedArray("command").createNestedObject();
-
-  command["transmitterAddress"] = receivedCode.address;
-  command["unit"] = receivedCode.unit;
-
-  printJsonObject(res);
 }
 
 void printJsonObject(JsonObject &jsonObject) {
