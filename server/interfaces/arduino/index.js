@@ -3,6 +3,14 @@ const SerialPort = require('serialport');
 let port;
 
 const Arduino = {
+    getComport: function (callback) {
+        let err;
+        if (port === undefined || !port.isOpen()) {
+            err = 'No comport is active';
+        }
+
+        callback(err, port.path);
+    },
     getComports: function (callback) {
         SerialPort.list(function (err, comports) {
             if (err) {

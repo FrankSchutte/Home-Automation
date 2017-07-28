@@ -52,6 +52,18 @@ api.get('/v1/comports', function (req, res) {
     });
 });
 
+// Get currently activated comport
+api.get('/v1/comports/current', function (err, res) {
+    arduino.getComport(function (err, comport) {
+        const message = {
+            err: err,
+            comport: comport
+        };
+
+        res.json(message);
+    });
+});
+
 // Set a comport that should be used
 api.post('/v1/comports', function (req, res) {
     const comName = req.body.comName;
