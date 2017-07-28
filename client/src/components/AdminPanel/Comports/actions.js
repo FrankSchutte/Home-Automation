@@ -9,7 +9,7 @@ const actions = {
                 }
 
                 dispatch({type: 'FETCH_COMPORTS_SUCCESS', comports: comports});
-            })
+            });
         };
     },
     fetchCurrentComport: () => {
