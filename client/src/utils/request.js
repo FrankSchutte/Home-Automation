@@ -1,6 +1,6 @@
 import superagent from 'superagent';
 
-const url = 'http://192.168.0.51:3000';
+const url = 'http://' + window.location.host;
 
 const request = {
     fetchComports: (callback) => {
